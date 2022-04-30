@@ -12,6 +12,7 @@
 #include <gsl/gsl_vector.h>
 
 #include "../include/atom.h"
+#include "../include/basis_reader.h"
 
 int main() {
 
@@ -29,6 +30,9 @@ int main() {
 
     memcpy(a->basis->basis_functions[0]->exponents->data, e, 3*sizeof(double));
     memcpy(a->basis->basis_functions[0]->contractions->data, c, 3*sizeof(double));
+    FILE *f = fopen("/Users/romanishchenko/CLionProjects/SCF/basis/6-31G-H", "r");
+    if(f) parse_basis_file(f);
+
 
     return 0;
 }

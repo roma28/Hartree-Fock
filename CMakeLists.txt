@@ -6,5 +6,5 @@ find_package(GSL REQUIRED)
 
 include_directories(${GSL_INCLUDE_DIRS})
 
-add_executable(SCF src/main.c src/atom_basis.c src/atom.c)
+add_executable(SCF src/main.c src/atom_basis.c src/atom.c src/basis_reader.c include/basis_reader.h)
 target_link_libraries(SCF ${GSL_LIBRARIES})
