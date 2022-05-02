@@ -10,9 +10,6 @@
 #ifndef SCF_INTEGRAL_TOOLS_H
 #define SCF_INTEGRAL_TOOLS_H
 
-#include <gsl/gsl_math.h>
-#include <gsl/gsl_blas.h>
-#include <gsl/gsl_sf_gamma.h>
 
 
 /**

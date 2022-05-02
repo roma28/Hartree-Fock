@@ -10,8 +10,6 @@
 #ifndef SCF_PRIMITIVE_INTEGRALS_H
 #define SCF_PRIMITIVE_INTEGRALS_H
 #include "atom_basis.h"
-#include <string.h>
-#include "integral_tools.h"
 
 /**
  * Computes overlap integral of two 3D gaussian primitives of L=0

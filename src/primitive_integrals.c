@@ -8,29 +8,9 @@
 // Copyright (c) Roman Ishchenko 2022.
 
 #include "../include/primitive_integrals.h"
-
-double N(uint8_t i, uint8_t j, uint8_t k, double alpha) {
-    double eN = pow(gsl_pow_3(M_2_PI * alpha), 0.25);
-    if ((i == 0) && (j == 0) && (k == 0)) { return eN; }
-    else {
-        double fac = sqrt(pow(4 * alpha, i + j + k) / gsl_sf_doublefact(2 * i - 1) /
-                          gsl_sf_doublefact(2 * j - 1) / gsl_sf_doublefact(2 * k - 1));
-
-        return eN * fac;
-    }
-}
-
-double deltaR2(const gsl_vector *Ra, const gsl_vector *Rb) {
-    gsl_vector *res = gsl_vector_alloc(3);
-    gsl_vector_memcpy(res, Ra);
-    gsl_vector_sub(res, Rb);
-
-    double dR2;
-    gsl_blas_ddot(res, res, &dR2);
-    gsl_vector_free(res);
-
-    return dR2;
-}
+#include <string.h>
+#include "../include/integral_tools.h"
+#include <gsl/gsl_math.h>
 
 
 double s00(double exp_a, double exp_b, double deltaR2) {
@@ -63,3 +43,5 @@ double k00(double exp_a, double exp_b, double deltaR2) {
     double q = exp_a * exp_b / (exp_a + exp_b);
     return Na * Nb * (3 * q - 2 * gsl_pow_2(q) * deltaR2);
 }
+
+
