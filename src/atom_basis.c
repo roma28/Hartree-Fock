@@ -15,13 +15,15 @@ basis_function *basis_function_alloc(size_t n) {
         f->n_primitives = n;
         f->exponents = gsl_vector_alloc(n);
         f->contractions = gsl_vector_alloc(n);
+        f->origin = gsl_vector_alloc(3);
     }
     return f;
 }
 
-void basis_function_dealloc(basis_function *p) {
+void basis_function_free(basis_function *p) {
     gsl_vector_free(p->exponents);
     gsl_vector_free(p->contractions);
+    gsl_vector_free(p->origin);
     free(p);
     p = NULL;
 }
@@ -35,9 +37,9 @@ atom_basis *atom_basis_alloc(size_t nfunc) {
     return b;
 }
 
-void atom_basis_dealloc(atom_basis *p) {
+void atom_basis_free(atom_basis *p) {
     for (size_t i = 0; i < p->n_contracted; ++i) {
-        basis_function_dealloc(p->basis_functions[i]);
+        basis_function_free(p->basis_functions[i]);
     }
     free(p->basis_functions);
     free(p);

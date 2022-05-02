@@ -16,8 +16,8 @@ atom *atom_alloc() {
     return a;
 }
 
-void atom_dealloc(atom *p) {
-    atom_basis_dealloc(p->basis);
+void atom_free(atom *p) {
+    atom_basis_free(p->basis);
     gsl_vector_free(p->coords);
     free(p);
     p = NULL;

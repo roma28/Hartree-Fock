@@ -10,7 +10,7 @@
 #include "../include/primitive_integrals.h"
 
 double N(double alpha) {
-    return sqrt(sqrt(gsl_pow_3(2 * alpha * M_1_PI)));
+    return pow(gsl_pow_3(M_2_PI * alpha), 0.25);
 }
 
 double Q(const gsl_vector *Ra, const gsl_vector *Rb) {
@@ -20,24 +20,47 @@ double Q(const gsl_vector *Ra, const gsl_vector *Rb) {
     double Q;
     gsl_blas_ddot(res, res, &Q);
     gsl_vector_free(res);
-
     return Q;
+
 }
 
-double s00(const double exp_a, const double exp_b, const gsl_vector *Ra, const gsl_vector *Rb) {
-//    double Na = N(exp_a);
-//    double Nb = N(exp_b);
-
-    double Na = 1l;
-    double Nb = 1l;
+double q(const double exp_a, const double exp_b) {
+    return -exp_a * exp_b / (exp_a + exp_b);
+}
 
 
-    double t1 = gsl_pow_3(M_SQRTPI / sqrt(exp_a + exp_b));
+double s00(double exp_a, double exp_b, double Q) {
+    double Na = N(exp_a);
+    double Nb = N(exp_b);
 
-    double q = -exp_a * exp_b / (exp_a + exp_b);
+    double t1 = sqrt(gsl_pow_3(M_PI / (exp_a + exp_b)));
 
-    double e = exp(q * Q(Ra, Rb));
+    double e = exp(q(exp_a, exp_b) * Q);
 
     return Na * Nb * t1 * e;
 
+}
+
+double E(uint8_t i, uint8_t j, uint8_t t, double exp_a, double exp_b, double Q) {
+    if ((t < 0) || (t > i + j)) return 0.0;
+    else if ((i == 0) && (j == 0) && (t == 0)) {
+        return s00(exp_a, exp_b, Q);
+    } else if (j == 0) {
+    }
+    return -1;
+}
+
+
+double S(const basis_function *a, const basis_function *b) {
+    double S = 0.0;
+    double q = Q(a->origin, b->origin);
+
+    for (size_t i = 0; i < a->n_primitives; ++i) {
+        for (size_t j = 0; j < b->n_primitives; ++j) {
+            S += a->contractions->data[i] * b->contractions->data[j] *
+                 s00(a->exponents->data[i], b->exponents->data[j], q);
+        }
+    }
+
+    return S;
 }

@@ -30,8 +30,8 @@ int main() {
 
     a->basis->basis_functions[0]->L = L_S;
 
-    memcpy(a->basis->basis_functions[0]->exponents->data, e, 3*sizeof(double));
-    memcpy(a->basis->basis_functions[0]->contractions->data, c, 3*sizeof(double));
+    memcpy(a->basis->basis_functions[0]->exponents->data, e, 3 * sizeof(double));
+    memcpy(a->basis->basis_functions[0]->contractions->data, c, 3 * sizeof(double));
 
     gsl_vector *ca = gsl_vector_alloc(3);
     gsl_vector *cb = gsl_vector_alloc(3);
@@ -41,10 +41,13 @@ int main() {
         cb->data[i] = 0.2 * i;
     }
 
-    double i = s00(e[0], e[1], ca, cb);
+    memcpy(a->basis->basis_functions[0]->origin->data, ca->data, 3 * sizeof(double));
 
 
-    printf("S00 = %e", i);
+    double s = S(a->basis->basis_functions[0],a->basis->basis_functions[0]);
+
+    printf("dS/S %e", s-1);
+    char str[255];
 
     return 0;
 }
