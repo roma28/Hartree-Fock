@@ -31,10 +31,13 @@ int main() {
 
     a->basis->basis_functions[0]->L = L_S;
 
-    memcpy(a->basis->basis_functions[0]->exponents->data, e, 3*sizeof(double));
-    memcpy(a->basis->basis_functions[0]->contractions->data, c, 3*sizeof(double));
-    FILE *f = fopen("/Users/romanishchenko/CLionProjects/SCF/basis/6-31G-H", "r");
-    if(f) parse_basis_file(f);
+    memcpy(a->basis->basis_functions[0]->exponents->data, e, 3 * sizeof(double));
+    memcpy(a->basis->basis_functions[0]->contractions->data, c, 3 * sizeof(double));
+    FILE *f = fopen("../basis/STO-3G-H", "r");
+    if (f) {
+        parse_basis_file(f);
+        fclose(f);
+    }
 
 
     gsl_vector *ca = gsl_vector_alloc(3);
@@ -48,9 +51,9 @@ int main() {
     memcpy(a->basis->basis_functions[0]->origin->data, ca->data, 3 * sizeof(double));
 
 
-    double s = S(a->basis->basis_functions[0],a->basis->basis_functions[0]);
+    double s = S(a->basis->basis_functions[0], a->basis->basis_functions[0]);
 
-    printf("dS/S %e", s-1);
+    printf("dS/S %e", s - 1);
     char str[255];
 
     return 0;

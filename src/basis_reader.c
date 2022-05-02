@@ -9,38 +9,40 @@
 
 #include "../include/basis_reader.h"
 
-int a[255];
 
-void parse_block(FILE *f) {
+void parse_block(FILE *f, basis_function *bf) {
     char s[255];
+
+    fgets(s, 255, f);
+    if (s[0] == '\0') return;
+    char atom_symbol;
+    sscanf(s, "%c\t", &atom_symbol);
+
     fgets(s, 255, f);
     char moment;
-    int nf;
-    float norm;
-    sscanf(s, "%c\t%d\t%f", &moment, &nf, &norm);
+    int n_p;
 
-    basis_function *bf = basis_function_alloc(nf);
+    sscanf(s, "%c\t%d\t", &moment, &n_p);
+    bf = basis_function_alloc(n_p);
 
-    int n;
-
-    for (size_t i = 0; i < nf; ++i) {
+    for (size_t i = 0; i < n_p; ++i) {
         fgets(s, 255, f);
-        sscanf(s, "\t%le\t%le\n", &(bf->exponents->data[i]), &(bf->contractions->data[i]));
+        sscanf(s, GAUSSIAN_PRIMITIVE_FORMAT_STRING, &(bf->exponents->data[i]), &(bf->contractions->data[i]));
     }
 
     return;
 
 }
 
-void parse_basis_file(FILE *f) {
+
+basis_function **parse_basis_file(FILE *f) {
     char s[255];
     do {
         fgets(s, 255, f);
-        if (s[0] == '!') break;
-        if (s == "****") break;
-        char atom_symbol;
-        sscanf(s, "%c\t", &atom_symbol);
-        parse_block(f);
+        if (s[0] == COMMENT_START) break;
+        if (strcmp(s, BLOCK_START) != 0) break;
+        basis_function *bf;
+        parse_block(f, bf);
     } while (strnlen(s, 255) > 0);
 
 }

@@ -10,10 +10,15 @@
 
 #ifndef SCF_BASIS_READER_H
 #define SCF_BASIS_READER_H
+
+#define GAUSSIAN_PRIMITIVE_FORMAT_STRING "\t%le\t%le\n"
+#define BLOCK_START "****\n"
+#define COMMENT_START '!'
+
 #include <stdio.h>
 #include "atom_basis.h"
 #include <string.h>
 
-void parse_basis_file(FILE *f);
+basis_function **parse_basis_file(FILE *f);
 
 #endif //SCF_BASIS_READER_H
