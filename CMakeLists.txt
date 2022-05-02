@@ -6,5 +6,5 @@ find_package(GSL REQUIRED)
 
 include_directories(${GSL_INCLUDE_DIRS})
 
-add_executable(SCF src/main.c src/atom_basis.c src/atom.c src/primitive_integrals.c include/primitive_integrals.h)
+add_executable(SCF src/main.c src/atom_basis.c src/atom.c src/primitive_integrals.c include/primitive_integrals.h src/integrals.c include/integrals.h src/integral_tools.c include/integral_tools.h)
 target_link_libraries(SCF ${GSL_LIBRARIES})

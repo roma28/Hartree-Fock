@@ -32,6 +32,9 @@ typedef struct {
     gsl_vector *exponents; ///< exponents of gaussian primitives
     gsl_vector *contractions; ///< contraction coefficients of gaussian primitives
     gsl_vector *origin;
+    uint8_t i;
+    uint8_t j;
+    uint8_t k;
 } basis_function;
 
 /**

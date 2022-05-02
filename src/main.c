@@ -12,7 +12,7 @@
 #include <gsl/gsl_vector.h>
 
 #include "../include/atom.h"
-#include "../include/primitive_integrals.h"
+#include "../include/integrals.h"
 
 int main() {
 

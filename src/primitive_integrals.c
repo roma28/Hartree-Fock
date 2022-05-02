@@ -9,58 +9,57 @@
 
 #include "../include/primitive_integrals.h"
 
-double N(double alpha) {
-    return pow(gsl_pow_3(M_2_PI * alpha), 0.25);
+double N(uint8_t i, uint8_t j, uint8_t k, double alpha) {
+    double eN = pow(gsl_pow_3(M_2_PI * alpha), 0.25);
+    if ((i == 0) && (j == 0) && (k == 0)) { return eN; }
+    else {
+        double fac = sqrt(pow(4 * alpha, i + j + k) / gsl_sf_doublefact(2 * i - 1) /
+                          gsl_sf_doublefact(2 * j - 1) / gsl_sf_doublefact(2 * k - 1));
+
+        return eN * fac;
+    }
 }
 
-double Q(const gsl_vector *Ra, const gsl_vector *Rb) {
+double deltaR2(const gsl_vector *Ra, const gsl_vector *Rb) {
     gsl_vector *res = gsl_vector_alloc(3);
     gsl_vector_memcpy(res, Ra);
     gsl_vector_sub(res, Rb);
-    double Q;
-    gsl_blas_ddot(res, res, &Q);
+
+    double dR2;
+    gsl_blas_ddot(res, res, &dR2);
     gsl_vector_free(res);
-    return Q;
 
-}
-
-double q(const double exp_a, const double exp_b) {
-    return -exp_a * exp_b / (exp_a + exp_b);
+    return dR2;
 }
 
 
-double s00(double exp_a, double exp_b, double Q) {
-    double Na = N(exp_a);
-    double Nb = N(exp_b);
+double s00(double exp_a, double exp_b, double deltaR2) {
+    double Na = N(0, 0, 0, exp_a);
+    double Nb = N(0, 0, 0, exp_b);
+
+    double q = exp_a * exp_b / (exp_a + exp_b);
 
     double t1 = sqrt(gsl_pow_3(M_PI / (exp_a + exp_b)));
 
-    double e = exp(q(exp_a, exp_b) * Q);
+    double e = exp(-q * deltaR2);
 
     return Na * Nb * t1 * e;
-
 }
 
-double E(uint8_t i, uint8_t j, uint8_t t, double exp_a, double exp_b, double Q) {
-    if ((t < 0) || (t > i + j)) return 0.0;
-    else if ((i == 0) && (j == 0) && (t == 0)) {
-        return s00(exp_a, exp_b, Q);
-    } else if (j == 0) {
-    }
-    return -1;
-}
+//double E(uint8_t l1, uint8_t l2, int8_t t, double exp_a, double exp_b, double deltaR2) {
+//    if ((t < 0) || (t > l1 + l2)) return 0.0;
+//    else if ((l1 == 0) && (l2 == 0) && (t == 0)) {
+//        return s00(exp_a, exp_b, deltaR2);
+//    }
+//    return -1;
+//}
 
 
-double S(const basis_function *a, const basis_function *b) {
-    double S = 0.0;
-    double q = Q(a->origin, b->origin);
 
-    for (size_t i = 0; i < a->n_primitives; ++i) {
-        for (size_t j = 0; j < b->n_primitives; ++j) {
-            S += a->contractions->data[i] * b->contractions->data[j] *
-                 s00(a->exponents->data[i], b->exponents->data[j], q);
-        }
-    }
+double k00(double exp_a, double exp_b, double deltaR2) {
+    double Na = N(0, 0, 0, exp_a);
+    double Nb = N(0, 0, 0, exp_b);
 
-    return S;
+    double q = exp_a * exp_b / (exp_a + exp_b);
+    return Na * Nb * (3 * q - 2 * gsl_pow_2(q) * deltaR2);
 }
