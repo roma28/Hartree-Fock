@@ -7,18 +7,8 @@
 //
 // Copyright (c) Roman Ishchenko 2022.
 
+//
+// Created by Roman Ishchenko on 02.05.2022.
+//
 
-#include "../include/atom.h"
-
-atom *atom_alloc() {
-    atom *a = malloc(sizeof(atom));
-    if (a) a->coords = gsl_vector_alloc(3);
-    return a;
-}
-
-void atom_free(atom *p) {
-    atom_basis_free(p->basis);
-    gsl_vector_free(p->coords);
-    free(p);
-    p = NULL;
-}
+#include "../include/integral_tools.h"

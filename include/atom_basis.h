@@ -16,6 +16,13 @@
 #define L_S 0u;
 #define L_P 1u;
 
+typedef struct {
+    size_t L;
+    double exponent;
+    gsl_vector *origin;
+    double N;
+} primitive;
+
 /**
  * \struct Stores a contracted basis_functions function consisting of gaussian primitives
  */
@@ -24,6 +31,10 @@ typedef struct {
     size_t n_primitives; ///< number of gaussian primitives
     gsl_vector *exponents; ///< exponents of gaussian primitives
     gsl_vector *contractions; ///< contraction coefficients of gaussian primitives
+    gsl_vector *origin;
+    uint8_t i;
+    uint8_t j;
+    uint8_t k;
 } basis_function;
 
 /**
@@ -41,7 +52,7 @@ typedef struct {
  */
 basis_function *basis_function_alloc(size_t n);
 
-void basis_function_dealloc(basis_function *p);
+void basis_function_free(basis_function *p);
 
 /**
  * Allocates atom_basis structure consisting of n contracted basis functions
@@ -50,6 +61,6 @@ void basis_function_dealloc(basis_function *p);
  */
 atom_basis *atom_basis_alloc(size_t n);
 
-void atom_basis_dealloc(atom_basis *p);
+void atom_basis_free(atom_basis *p);
 
 #endif //SCF_ATOM_BASIS_H
