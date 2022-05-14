@@ -75,3 +75,40 @@ V(const basis_function *a, const basis_function *b, const uint8_t *Z, gsl_vector
     return V;
 }
 
+double G(basis_function *a, const basis_function *b, basis_function *x, const basis_function *y) {
+    assert((a->L == 0) && (b->L == 0) && ((x->L == 0)) && ((y->L == 0))); //implemented only for S functions
+    double G = 0.0;
+    double dab2 = deltaR2(a->origin, b->origin);
+    double dxy2 = deltaR2(x->origin, y->origin);
+
+    for (size_t i = 0; i < a->n_primitives; ++i) {
+        for (size_t j = 0; j < b->n_primitives; ++j) {
+
+            gsl_vector *p = gaussian_center(a->origin, b->origin, a->exponents->data[i], b->exponents->data[j]);
+            double s1 = a->exponents->data[i] * b->exponents->data[j];
+
+            for (size_t k = 0; k < x->n_primitives; ++k) {
+                for (size_t l = 0; l < y->n_primitives; ++l) {
+
+                    double s2 = x->exponents->data[k] * y->exponents->data[l];
+                    gsl_vector *q = gaussian_center(x->origin, y->origin, a->exponents->data[k], b->exponents->data[l]);
+                    double dpq2 = deltaR2(p, q);
+                    double t = s1 * s2 * dpq2 / (s1 + s2);
+                    double lambda = M_2_SQRTPI * s1 * s2 / (s1 + s2);
+
+                    G += a->contractions->data[i] * b->contractions->data[j] *
+                         x->contractions->data[k] * y->contractions->data[l] *
+                         lambda * g0000(a->exponents->data[i], b->exponents->data[j], x->exponents->data[k],
+                                        y->exponents->data[l],
+                                        dab2, dxy2, t);
+
+                    gsl_vector_free(q);
+                }
+            }
+            gsl_vector_free(p);
+        }
+    }
+
+    return G;
+}
+

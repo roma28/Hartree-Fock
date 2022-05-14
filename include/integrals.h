@@ -32,4 +32,6 @@ double T(const basis_function *a, const basis_function *b);
 double
 V(const basis_function *a, const basis_function *b, const uint8_t *Z, gsl_vector **atom_origin, size_t natoms);
 
+double G(basis_function *a, const basis_function *b, basis_function *x, const basis_function *y);
+
 #endif //SCF_INTEGRALS_H

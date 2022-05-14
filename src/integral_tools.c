@@ -14,7 +14,7 @@
 #include <gsl/gsl_sf_hyperg.h>
 
 
-double N(uint8_t i, uint8_t j, uint8_t k, double alpha) {
+double normalization_constant(uint8_t i, uint8_t j, uint8_t k, double alpha) {
     double eN = pow(gsl_pow_3(M_2_PI * alpha), 0.25);
     if ((i == 0) && (j == 0) && (k == 0)) { return eN; }
     else {
@@ -26,39 +26,24 @@ double N(uint8_t i, uint8_t j, uint8_t k, double alpha) {
 }
 
 double deltaR2(const gsl_vector *Ra, const gsl_vector *Rb) {
-    gsl_vector *res = gsl_vector_alloc(3);
-    gsl_vector_memcpy(res, Ra);
-    gsl_vector_sub(res, Rb);
-
-    double dR2;
-    gsl_blas_ddot(res, res, &dR2);
-    gsl_vector_free(res);
-
+    double dR2 = 0;
+    for (size_t i = 0; i < 3; ++i) {
+        dR2 += gsl_pow_2(Ra->data[i] - Rb->data[i]);
+    }
     return dR2;
 }
 
-double boys_function_hyperg(double n, double T) {
+double boys_function(double n, double T) {
     return gsl_sf_hyperg_1F1(n + 0.5, n + 1.5, T);
 }
 
-double boys_function_incomplete_gamma(double n, double T) {
-    return pow(2 * T, -(n + 0.5)) * gsl_sf_gamma_inc(n + 0.5, T);
-}
 
 gsl_vector *gaussian_center(const gsl_vector *Ra, const gsl_vector *Rb, double exp_a, double exp_b) {
-    gsl_vector *a_tmp = gsl_vector_alloc(3);
-    gsl_vector *b_tmp = gsl_vector_alloc(3);
+    gsl_vector *res = gsl_vector_alloc(3);
 
-    gsl_vector_memcpy(a_tmp, Ra);
-    gsl_vector_memcpy(b_tmp, Rb);
+    for (size_t i = 0; i < 3; ++i) {
+        res->data[i] = (exp_a * Ra->data[i] + exp_b * Rb->data[i]) / (exp_a + exp_b);
+    }
 
-    gsl_vector_scale(a_tmp, exp_a);
-    gsl_vector_scale(b_tmp, exp_b);
-
-    gsl_vector_add(a_tmp, b_tmp);
-    gsl_vector_scale(a_tmp, 1 / (exp_a + exp_b));
-
-    gsl_vector_free(b_tmp);
-
-    return a_tmp;
+    return res;
 }

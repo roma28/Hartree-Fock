@@ -36,5 +36,7 @@ double k00(double exp_a, double exp_b, double deltaR2);
 
 double v00(double exp_a, double exp_b, double deltaR2, uint8_t z, double t);
 
+double g0000(double exp_a, double exp_b, double exp_x, double exp_y, double deltaR2ab, double deltaR2xy, double t);
+
 
 #endif //SCF_PRIMITIVE_INTEGRALS_H

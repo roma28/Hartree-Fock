@@ -43,11 +43,16 @@ int main() {
 
     gsl_vector_memcpy(a->basis->basis_functions[0]->origin, ca);
 
-    double s = S(a->basis->basis_functions[0], a->basis->basis_functions[0]);
-    double t = T(a->basis->basis_functions[0], a->basis->basis_functions[0]);
-    double v = V(a->basis->basis_functions[0], a->basis->basis_functions[0], &a->Z, &ca, 1);
+    for (size_t i = 0; i < 100000; ++i) {
+        double s = S(a->basis->basis_functions[0], a->basis->basis_functions[0]);
+        double t = T(a->basis->basis_functions[0], a->basis->basis_functions[0]);
+        double v = V(a->basis->basis_functions[0], a->basis->basis_functions[0], &a->Z, &ca, 1);
+        double g = G(a->basis->basis_functions[0], a->basis->basis_functions[0], a->basis->basis_functions[0],
+                     a->basis->basis_functions[0]);
 
-    printf("S = %e\nT = %e\nV = %e", s, t, v);
+    }
+
+//    printf("S = %e\nT = %e\nV = %e\nG = %e", s, t, v, g);
     char str[255];
 
     return 0;

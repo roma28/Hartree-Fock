@@ -23,7 +23,7 @@
  * @param k z cartesian quantum number
  * @return normalization constant
  */
-double N(uint8_t i, uint8_t j, uint8_t k, double alpha);
+double normalization_constant(uint8_t i, uint8_t j, uint8_t k, double alpha);
 
 /**
  * Computes normalization constant of 3D gaussian primitive @n
@@ -34,9 +34,7 @@ double N(uint8_t i, uint8_t j, uint8_t k, double alpha);
  */
 double deltaR2(const gsl_vector *Ra, const gsl_vector *Rb);
 
-double boys_function_incomplete_gamma(double n, double T);
-
-double boys_function_hyperg(double n, double T);
+double boys_function(double n, double T);
 
 gsl_vector *gaussian_center(const gsl_vector *Ra, const gsl_vector *Rb, double exp_a, double exp_b);
 

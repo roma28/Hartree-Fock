@@ -13,8 +13,8 @@
 #include <gsl/gsl_sf_gamma.h>
 
 double s00(double exp_a, double exp_b, double deltaR2) {
-    double Na = N(0, 0, 0, exp_a);
-    double Nb = N(0, 0, 0, exp_b);
+    double Na = normalization_constant(0, 0, 0, exp_a);
+    double Nb = normalization_constant(0, 0, 0, exp_b);
 
     double q = exp_a * exp_b / (exp_a + exp_b);
 
@@ -34,26 +34,27 @@ double s00(double exp_a, double exp_b, double deltaR2) {
 // }
 
 double k00(double exp_a, double exp_b, double deltaR2) {
-    double Na = N(0, 0, 0, exp_a);
-    double Nb = N(0, 0, 0, exp_b);
+//    double Na = normalization_constant(0, 0, 0, exp_a);
+//    double Nb = normalization_constant(0, 0, 0, exp_b);
 
     double q = exp_a * exp_b / (exp_a + exp_b);
-    return Na * Nb * (3 * q - 2 * gsl_pow_2(q) * deltaR2);
+    return 3 * q - 2 * gsl_pow_2(q) * deltaR2;
 }
 
 double v00(double exp_a, double exp_b, double deltaR2, uint8_t z, double t) {
-    double Na = N(0, 0, 0, exp_a);
-    double Nb = N(0, 0, 0, exp_b);
+//    double Na = normalization_constant(0, 0, 0, exp_a);
+//    double Nb = normalization_constant(0, 0, 0, exp_b);
 
-    double v00 = 0.0;
+    double v00 = z * s00(exp_a, exp_b, deltaR2) * boys_function(0, t);
 
-
-    v00 = z * s00(exp_a, exp_b, deltaR2) * boys_function_hyperg(0, t);
-
-    return v00 * Na * Nb;
+    return v00;
 }
 
-// double l00(double t)
-// {
-//     return gsl_sf_gamma_inc()
-// }
+double g0000(double exp_a, double exp_b, double exp_x, double exp_y, double deltaR2ab, double deltaR2xy, double t) {
+//    double Na = normalization_constant(0, 0, 0, exp_a);
+//    double Nb = normalization_constant(0, 0, 0, exp_b);
+
+    double g0000 = s00(exp_a, exp_b, deltaR2ab) * s00(exp_x, exp_y, deltaR2xy) * boys_function(0, t);
+
+    return g0000;
+}
