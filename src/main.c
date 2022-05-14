@@ -17,6 +17,7 @@
 int main() {
 
     atom *a = atom_alloc();
+    a->Z = 1;
 
     // STO-3G for hydrogen
     double e[3] = {0.3425250914E+01, 0.6239137298E+00, 0.1688554040E+00};
@@ -30,23 +31,23 @@ int main() {
 
     a->basis->basis_functions[0]->L = L_S;
 
+
     memcpy(a->basis->basis_functions[0]->exponents->data, e, 3 * sizeof(double));
     memcpy(a->basis->basis_functions[0]->contractions->data, c, 3 * sizeof(double));
 
     gsl_vector *ca = gsl_vector_alloc(3);
-    gsl_vector *cb = gsl_vector_alloc(3);
 
     for (size_t i = 0; i < 3; ++i) {
         ca->data[i] = 0.1 * i;
-        cb->data[i] = 0.2 * i;
     }
 
-    memcpy(a->basis->basis_functions[0]->origin->data, ca->data, 3 * sizeof(double));
+    gsl_vector_memcpy(a->basis->basis_functions[0]->origin, ca);
 
     double s = S(a->basis->basis_functions[0], a->basis->basis_functions[0]);
     double t = T(a->basis->basis_functions[0], a->basis->basis_functions[0]);
+    double v = V(a->basis->basis_functions[0], a->basis->basis_functions[0], &a->Z, &ca, 1);
 
-    printf("S = %e\nT = %e", s, t);
+    printf("S = %e\nT = %e\nV = %e", s, t, v);
     char str[255];
 
     return 0;

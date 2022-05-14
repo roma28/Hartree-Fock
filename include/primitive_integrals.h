@@ -34,4 +34,7 @@ double k00(double exp_a, double exp_b, double deltaR2);
 // */
 //double E(uint8_t l1, uint8_t l2, int8_t t, double exp_a, double exp_b, double deltaR2);
 
+double v00(double exp_a, double exp_b, double deltaR2, uint8_t z, double t);
+
+
 #endif //SCF_PRIMITIVE_INTEGRALS_H

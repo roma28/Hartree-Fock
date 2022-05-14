@@ -44,3 +44,21 @@ double boys_function_hyperg(double n, double T) {
 double boys_function_incomplete_gamma(double n, double T) {
     return pow(2 * T, -(n + 0.5)) * gsl_sf_gamma_inc(n + 0.5, T);
 }
+
+gsl_vector *gaussian_center(const gsl_vector *Ra, const gsl_vector *Rb, double exp_a, double exp_b) {
+    gsl_vector *a_tmp = gsl_vector_alloc(3);
+    gsl_vector *b_tmp = gsl_vector_alloc(3);
+
+    gsl_vector_memcpy(a_tmp, Ra);
+    gsl_vector_memcpy(b_tmp, Rb);
+
+    gsl_vector_scale(a_tmp, exp_a);
+    gsl_vector_scale(b_tmp, exp_b);
+
+    gsl_vector_add(a_tmp, b_tmp);
+    gsl_vector_scale(a_tmp, 1 / (exp_a + exp_b));
+
+    gsl_vector_free(b_tmp);
+
+    return a_tmp;
+}

@@ -25,7 +25,19 @@
  */
 double N(uint8_t i, uint8_t j, uint8_t k, double alpha);
 
+/**
+ * Computes normalization constant of 3D gaussian primitive @n
+ * of form  y = x^i * y^j * z^k * exp(-alpha * R^2)
+ * @param Ra first gaussian origin (gsl_vector with 3 elements)
+ * @param Rb second gaussian origin (gsl_vector with 3 elements)
+ * @return squared distance between two origins
+ */
 double deltaR2(const gsl_vector *Ra, const gsl_vector *Rb);
 
+double boys_function_incomplete_gamma(double n, double T);
+
+double boys_function_hyperg(double n, double T);
+
+gsl_vector *gaussian_center(const gsl_vector *Ra, const gsl_vector *Rb, double exp_a, double exp_b);
 
 #endif //SCF_INTEGRAL_TOOLS_H

@@ -8,10 +8,9 @@
 // Copyright (c) Roman Ishchenko 2022.
 
 #include "../include/primitive_integrals.h"
-#include <string.h>
 #include "../include/integral_tools.h"
 #include <gsl/gsl_math.h>
-
+#include <gsl/gsl_sf_gamma.h>
 
 double s00(double exp_a, double exp_b, double deltaR2) {
     double Na = N(0, 0, 0, exp_a);
@@ -26,15 +25,13 @@ double s00(double exp_a, double exp_b, double deltaR2) {
     return Na * Nb * t1 * e;
 }
 
-//double E(uint8_t l1, uint8_t l2, int8_t t, double exp_a, double exp_b, double deltaR2) {
-//    if ((t < 0) || (t > l1 + l2)) return 0.0;
-//    else if ((l1 == 0) && (l2 == 0) && (t == 0)) {
-//        return s00(exp_a, exp_b, deltaR2);
-//    }
-//    return -1;
-//}
-
-
+// double E(uint8_t l1, uint8_t l2, int8_t t, double exp_a, double exp_b, double deltaR2) {
+//     if ((t < 0) || (t > l1 + l2)) return 0.0;
+//     else if ((l1 == 0) && (l2 == 0) && (t == 0)) {
+//         return s00(exp_a, exp_b, deltaR2);
+//     }
+//     return -1;
+// }
 
 double k00(double exp_a, double exp_b, double deltaR2) {
     double Na = N(0, 0, 0, exp_a);
@@ -44,4 +41,19 @@ double k00(double exp_a, double exp_b, double deltaR2) {
     return Na * Nb * (3 * q - 2 * gsl_pow_2(q) * deltaR2);
 }
 
+double v00(double exp_a, double exp_b, double deltaR2, uint8_t z, double t) {
+    double Na = N(0, 0, 0, exp_a);
+    double Nb = N(0, 0, 0, exp_b);
 
+    double v00 = 0.0;
+
+
+    v00 = z * s00(exp_a, exp_b, deltaR2) * boys_function_hyperg(0, t);
+
+    return v00 * Na * Nb;
+}
+
+// double l00(double t)
+// {
+//     return gsl_sf_gamma_inc()
+// }
