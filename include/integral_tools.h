@@ -10,6 +10,8 @@
 #ifndef SCF_INTEGRAL_TOOLS_H
 #define SCF_INTEGRAL_TOOLS_H
 
+#include <stdint.h>
+#include <gsl/gsl_vector.h>
 
 
 /**

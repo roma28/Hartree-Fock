@@ -7,10 +7,6 @@
 //
 // Copyright (c) Roman Ishchenko 2022.
 
-//
-// Created by Roman Ishchenko on 02.05.2022.
-//
-
 #include "../include/integral_tools.h"
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_blas.h>

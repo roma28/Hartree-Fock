@@ -43,10 +43,10 @@ int main() {
 
     memcpy(a->basis->basis_functions[0]->origin->data, ca->data, 3 * sizeof(double));
 
+    double s = S(a->basis->basis_functions[0], a->basis->basis_functions[0]);
+    double t = T(a->basis->basis_functions[0], a->basis->basis_functions[0]);
 
-    double s = S(a->basis->basis_functions[0],a->basis->basis_functions[0]);
-
-    printf("dS/S %e", s-1);
+    printf("S = %e\nT = %e", s, t);
     char str[255];
 
     return 0;

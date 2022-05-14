@@ -9,6 +9,7 @@
 
 #ifndef SCF_ATOM_H
 #define SCF_ATOM_H
+
 #include "atom_basis.h"
 
 typedef struct {
@@ -18,5 +19,7 @@ typedef struct {
 } atom;
 
 atom *atom_alloc();
+
+void atom_free(atom *p);
 
 #endif //SCF_ATOM_H
