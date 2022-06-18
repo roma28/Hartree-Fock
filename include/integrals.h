@@ -17,21 +17,40 @@
  * Computes overlap integral of two contracted basis functions
  * @param a pointer to first function
  * @param b pointer to second function
- * @return overlap integral values
+ * @return overlap integral value
  */
-double S(const basis_function *a, const basis_function *b);
+double overlap_integral(const basis_function *a, const basis_function *b);
 
 /**
- * Computes kinetic integral of two contracted basis functions
+ * Computes kinetic energy integral of two contracted basis functions
  * @param a pointer to first function
  * @param b pointer to second function
- * @return kinetic integral values
+ * @return kinetic integral value
  */
-double T(const basis_function *a, const basis_function *b);
+double kinetic_energy_integral(const basis_function *a, const basis_function *b);
 
+/**
+ * Computes nuclear repulsion integral of two contracted basis functions with all the nuclei
+ * @param a pointer to first function
+ * @param b pointer to second function
+ * @param Z nuclei charges array
+ * @param atom_origins nuclei coordinates array
+ * @param natoms number of atoms
+ * @return nuclear repulsion integral value
+ */
 double
-V(const basis_function *a, const basis_function *b, const uint8_t *Z, gsl_vector **atom_origin, size_t natoms);
+nuclear_repulsion_integral(const basis_function *a, const basis_function *b, const uint8_t *Z,
+                           gsl_vector **atom_origins, size_t natoms);
 
-double G(basis_function *a, const basis_function *b, basis_function *x, const basis_function *y);
+/**
+ * Computes nuclear repulsion integral of two contracted basis functions with all the nuclei
+ * @param a pointer to first function
+ * @param b pointer to second function
+ * @param x pointer to first function
+ * @param y pointer to second function
+ * @return kinetic integral value
+ */
+double electron_repulsion_integral(const basis_function *a, const basis_function *b, const basis_function *x,
+                                   const basis_function *y);
 
 #endif //SCF_INTEGRALS_H

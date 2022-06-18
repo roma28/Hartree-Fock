@@ -14,7 +14,9 @@
 #include "../include/atom.h"
 #include "../include/integrals.h"
 
+
 int main() {
+
 
     atom *a = atom_alloc();
     atom *b = atom_alloc();
@@ -56,12 +58,13 @@ int main() {
     double v;
     double g;
 
-    for (size_t i = 0; i < 10; ++i) {
-        s = S(a->basis->basis_functions[0], a->basis->basis_functions[0]);
-        t = T(a->basis->basis_functions[0], a->basis->basis_functions[0]);
-        v = V(a->basis->basis_functions[0], a->basis->basis_functions[0], &a->Z, &ca, 1);
-        g = G(a->basis->basis_functions[0], a->basis->basis_functions[0], a->basis->basis_functions[0],
-              a->basis->basis_functions[0]);
+    for (size_t i = 0; i < 1000; ++i) {
+        s = overlap_integral(a->basis->basis_functions[0], a->basis->basis_functions[0]);
+        t = kinetic_energy_integral(a->basis->basis_functions[0], a->basis->basis_functions[0]);
+        v = nuclear_repulsion_integral(a->basis->basis_functions[0], a->basis->basis_functions[0], &a->Z, &ca, 1);
+        g = electron_repulsion_integral(a->basis->basis_functions[0], a->basis->basis_functions[0],
+                                        a->basis->basis_functions[0],
+                                        a->basis->basis_functions[0]);
 
     }
 

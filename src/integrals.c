@@ -12,7 +12,7 @@
 #include <gsl/gsl_math.h>
 
 
-double S(const basis_function *a, const basis_function *b) {
+double overlap_integral(const basis_function *a, const basis_function *b) {
     assert((a->L == 0) && (b->L == 0)); //implemented only for S functions
 
     double S = 0.0;
@@ -28,7 +28,7 @@ double S(const basis_function *a, const basis_function *b) {
     return S;
 }
 
-double T(const basis_function *a, const basis_function *b) {
+double kinetic_energy_integral(const basis_function *a, const basis_function *b) {
     assert((a->L == 0) && (b->L == 0)); //implemented only for S functions
 
     double T = 0.0;
@@ -46,12 +46,12 @@ double T(const basis_function *a, const basis_function *b) {
 }
 
 double
-V(const basis_function *a, const basis_function *b, const uint8_t *Z, gsl_vector **atom_origins, size_t natoms) {
+nuclear_repulsion_integral(const basis_function *a, const basis_function *b, const uint8_t *Z,
+                           gsl_vector **atom_origins, size_t natoms) {
     assert((a->L == 0) && (b->L == 0)); //implemented only for S functions
 
     double V = 0.0;
     double dR2 = deltaR2(a->origin, b->origin);
-
 
     for (size_t i = 0; i < a->n_primitives; ++i) {
         for (size_t j = 0; j < b->n_primitives; ++j) {
@@ -75,7 +75,8 @@ V(const basis_function *a, const basis_function *b, const uint8_t *Z, gsl_vector
     return V;
 }
 
-double G(basis_function *a, const basis_function *b, basis_function *x, const basis_function *y) {
+double electron_repulsion_integral(const basis_function *a, const basis_function *b, const basis_function *x,
+                                   const basis_function *y) {
     assert((a->L == 0) && (b->L == 0) && ((x->L == 0)) && ((y->L == 0))); //implemented only for S functions
     double G = 0.0;
     double dab2 = deltaR2(a->origin, b->origin);
