@@ -7,20 +7,15 @@
 //
 // Copyright (c) Roman Ishchenko 2022.
 
-#ifndef SCF_ATOM_H
-#define SCF_ATOM_H
+#ifndef SCF_SYSTEM_H
+#define SCF_SYSTEM_H
 
-#include "atom_basis.h"
+#include "atom.h"
 
 typedef struct {
-    uint32_t atomic_number;
-    gsl_vector *coords;
-    atom_basis *basis;
-    uint8_t Z;
-} atom;
+    atom **atoms;
+    uint32_t natoms;
+} System;
 
-atom *atom_alloc();
 
-void atom_free(atom *p);
-
-#endif //SCF_ATOM_H
+#endif //SCF_SYSTEM_H

@@ -10,9 +10,8 @@
 #ifndef SCF_INTEGRAL_TOOLS_H
 #define SCF_INTEGRAL_TOOLS_H
 
-#include <gsl/gsl_math.h>
-#include <gsl/gsl_blas.h>
-#include <gsl/gsl_sf_gamma.h>
+#include <stdint.h>
+#include <gsl/gsl_vector.h>
 
 
 /**
@@ -24,9 +23,19 @@
  * @param k z cartesian quantum number
  * @return normalization constant
  */
-double N(uint8_t i, uint8_t j, uint8_t k, double alpha);
+double normalization_constant(uint8_t i, uint8_t j, uint8_t k, double alpha);
 
+/**
+ * Computes normalization constant of 3D gaussian primitive @n
+ * of form  y = x^i * y^j * z^k * exp(-alpha * R^2)
+ * @param Ra first gaussian origin (gsl_vector with 3 elements)
+ * @param Rb second gaussian origin (gsl_vector with 3 elements)
+ * @return squared distance between two origins
+ */
 double deltaR2(const gsl_vector *Ra, const gsl_vector *Rb);
 
+double boys_function(double n, double T);
+
+gsl_vector *gaussian_center(const gsl_vector *Ra, const gsl_vector *Rb, double exp_a, double exp_b);
 
 #endif //SCF_INTEGRAL_TOOLS_H

@@ -6,21 +6,20 @@
 // https://opensource.org/licenses/MIT.
 //
 // Copyright (c) Roman Ishchenko 2022.
+#ifndef SCF_XYZ_READER_H
+#define SCF_XYZ_READER_H
 
-#ifndef SCF_ATOM_H
-#define SCF_ATOM_H
+#include <stdio.h>
+#include "atom.h"
 
-#include "atom_basis.h"
+#include "system.h"
 
-typedef struct {
-    uint32_t atomic_number;
-    gsl_vector *coords;
-    atom_basis *basis;
-    uint8_t Z;
-} atom;
+/**
+ * Reads atom types and coordinates from XYZ file and puts them to System structure
+ * @param f pointer to a XYZ file
+ * @param s pointer to a System structure
+ */
+int read_xyz(FILE *f, System *s);
 
-atom *atom_alloc();
+#endif //SCF_XYZ_READER_H
 
-void atom_free(atom *p);
-
-#endif //SCF_ATOM_H

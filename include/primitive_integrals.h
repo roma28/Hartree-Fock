@@ -10,8 +10,6 @@
 #ifndef SCF_PRIMITIVE_INTEGRALS_H
 #define SCF_PRIMITIVE_INTEGRALS_H
 #include "atom_basis.h"
-#include <string.h>
-#include "integral_tools.h"
 
 /**
  * Computes overlap integral of two 3D gaussian primitives of L=0
@@ -35,5 +33,10 @@ double k00(double exp_a, double exp_b, double deltaR2);
 // * @todo recurrent expansion
 // */
 //double E(uint8_t l1, uint8_t l2, int8_t t, double exp_a, double exp_b, double deltaR2);
+
+double v00(double exp_a, double exp_b, double deltaR2, uint8_t z, double t);
+
+double g0000(double exp_a, double exp_b, double exp_x, double exp_y, double deltaR2ab, double deltaR2xy, double t);
+
 
 #endif //SCF_PRIMITIVE_INTEGRALS_H
