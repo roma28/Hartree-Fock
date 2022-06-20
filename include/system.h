@@ -7,12 +7,15 @@
 //
 // Copyright (c) Roman Ishchenko 2022.
 
-#ifndef SCF_FOCK_MATRIX_H
-#define SCF_FOCK_MATRIX_H
+#ifndef SCF_SYSTEM_H
+#define SCF_SYSTEM_H
 
-#include <gsl/gsl_matrix.h>
 #include "atom.h"
 
-gsl_matrix *fock_matrix(const atom **atoms, const uint32_t natoms);
+typedef struct {
+    atom **atoms;
+    uint32_t natoms;
+} System;
 
-#endif //SCF_FOCK_MATRIX_H
+
+#endif //SCF_SYSTEM_H

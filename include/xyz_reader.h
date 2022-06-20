@@ -6,13 +6,20 @@
 // https://opensource.org/licenses/MIT.
 //
 // Copyright (c) Roman Ishchenko 2022.
+#ifndef SCF_XYZ_READER_H
+#define SCF_XYZ_READER_H
 
-#ifndef SCF_FOCK_MATRIX_H
-#define SCF_FOCK_MATRIX_H
-
-#include <gsl/gsl_matrix.h>
+#include <stdio.h>
 #include "atom.h"
 
-gsl_matrix *fock_matrix(const atom **atoms, const uint32_t natoms);
+#include "system.h"
 
-#endif //SCF_FOCK_MATRIX_H
+/**
+ * Reads atom types and coordinates from XYZ file and puts them to System structure
+ * @param f pointer to a XYZ file
+ * @param s pointer to a System structure
+ */
+int read_xyz(FILE *f, System *s);
+
+#endif //SCF_XYZ_READER_H
+

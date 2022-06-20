@@ -13,7 +13,7 @@
 #include "atom_basis.h"
 
 typedef struct {
-    uint8_t atomic_number;
+    uint32_t atomic_number;
     gsl_vector *coords;
     atom_basis *basis;
     uint8_t Z;

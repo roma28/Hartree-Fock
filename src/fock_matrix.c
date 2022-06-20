@@ -12,7 +12,19 @@
 //#include "../include/atom.h"
 
 gsl_matrix *fock_matrix(const atom **atoms, const uint32_t natoms) {
+    int nfunc = 0;
+    gsl_vector **origins = malloc(natoms * sizeof(gsl_vector *));
+    int *Z = malloc(natoms * sizeof(int));
 
+    for (size_t i = 0; i < natoms; ++i) {
+        nfunc += atoms[i]->basis->n_contracted;
+        origins[i] = atoms[i]->coords;
+        Z[i] = atoms[i]->Z;
+    }
+
+
+    free(origins);
+    free(Z);
 }
 
 gsl_matrix *overlap_matrix(const atom **atoms, const uint32_t nfunc) {
@@ -31,4 +43,21 @@ gsl_matrix *overlap_matrix(const atom **atoms, const uint32_t nfunc) {
 
     return s;
 }
+
+
+void nuclear_repulsion_matrix(gsl_matrix *t, const atom **atoms, const uint32_t natoms) {
+    for (size_t i = 0; i < natoms; ++i) {
+        for (size_t j = 0; j < natoms; ++j) {
+            for (size_t a = 0; a < atoms[i]->basis->n_contracted; ++a) {
+                for (size_t b = 0; b < atoms[j]->basis->n_contracted; ++b) {
+                    gsl_matrix_set(t, i * atoms[i - 1]->basis->n_contracted + a,
+                                   j * atoms[j - 1]->basis->n_contracted + b,
+                                   nuclear_repulsion_integral(atoms[i]->basis->basis_functions[a],
+                                                              atoms[j]->basis->basis_functions[b]));
+                }
+            }
+        }
+    }
+}
+
 
